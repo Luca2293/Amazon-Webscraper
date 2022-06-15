@@ -31,4 +31,20 @@ start_button = Button(gui, text="Start")
 beenden_button = Button(gui, text="Beenden")
 
 
+info_label.grid(row=0, column=0)
+
+product_label.grid(row=1, column=0)
+product_entry.grid(row=1, column=1)
+
+seiten_label.grid(row=2, column=0)
+seiten_entry.grid(row=2, column=1)
+
+dateiname_label.grid(row=3, column=0)
+dateiname_entry.grid(row=3, column=1)
+
+start_button.grid(row=4, column=0)
+öffnen_button.grid(row=4, column=1)
+beenden_button.grid(row=4, column=2)
+
+
 gui.mainloop()

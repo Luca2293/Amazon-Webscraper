@@ -4,41 +4,49 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from time import sleep
 import openpyxl
+import GUI
 
 
-headers ={'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0'}
+def starten():
+    suchbegriff = product_entry.get()
+    seiten = seiten_entry.get()
+    dateiname = dateiname_entry()
+    webscraper(suchbegriff, seiten, dateiname)
 
-base_url = "https://www.amazon.com/s?k={}".format(suchbegriff).replace(' ', '+')
+def webscraper(suchbegriff, seiten, dateiname):
+    headers ={'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0'}
 
-items = []
-for i in range(1, int(seiten) + 1):
-    print("Scrapen von Seite {}...".format(i))
-    response = requests.get(base_url + "&page{}".format(i), headers=headers)
-    soup = BeautifulSoup(response.content, 'html.parser')
+    base_url = "https://www.amazon.com/s?k={}".format(suchbegriff).replace(' ', '+')
 
-    results = soup.find_all('div' , {'class': 's-result-item', 'data-component-type': 's-search-result'})
+    items = []
+    for i in range(1, int(seiten) + 1):
+        print("Scrapen von Seite {}...".format(i))
+        response = requests.get(base_url + "&page{}".format(i), headers=headers)
+        soup = BeautifulSoup(response.content, 'html.parser')
 
-    for result in results:
-        product_name = results.h2.text
+        results = soup.find_all('div' , {'class': 's-result-item', 'data-component-type': 's-search-result'})
 
-        try:
-            rating = result.find('i', {'class': 'a-icon'}).text
-    
-        except AttributeError:
-            continue
+        for result in results:
+            product_name = results.h2.text
 
-        try:
-            price1 = result.find('span', {'class': 'a-price-whole'}).text
-            price2 = result.find('span', {'class': 'a-price-fraction'}).text
-            price = float(price1 + price2)
-            product_url = 'https://amazon.com' + result.h2.a['href']
+            try:
+                rating = result.find('i', {'class': 'a-icon'}).text
+        
+            except AttributeError:
+                continue
 
-            items.append([product_name, rating, price, product_url])
-            
-        except AttributeError:
-            continue
+            try:
+                price1 = result.find('span', {'class': 'a-price-whole'}).text
+                price2 = result.find('span', {'class': 'a-price-fraction'}).text
+                price = float(price1 + price2)
+                product_url = 'https://amazon.com' + result.h2.a['href']
 
-    sleep(1.5)
-    
-df = pd.DataFrame(items, columns=['product', 'rating', 'price', 'product url'])
-df.to_excel('{}.xlsx'.format(dateiname), index=False)
+                items.append([product_name, rating, price, product_url])
+                
+            except AttributeError:
+                continue
+
+        sleep(1.5)
+        
+    df = pd.DataFrame(items, columns=['product', 'rating', 'price', 'product url'])
+    df.to_excel('{}.xlsx'.format(dateiname), index=False)

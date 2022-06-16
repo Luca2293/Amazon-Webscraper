@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from time import sleep
 import openpyxl
-import GUI
+from GUI import product_entry, seiten_entry, dateiname_entry
 
 
 def starten():

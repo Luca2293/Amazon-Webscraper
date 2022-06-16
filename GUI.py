@@ -1,9 +1,10 @@
 from tkinter import *
-
+import Webscraper
 
 gui = Tk()
 gui.resizable(width=False, height=False)
 gui.title("Amazon Webscraper")
+
 
 info_label = Label(gui, text="""\
     ************* Amazon Webscraper *************
@@ -28,7 +29,7 @@ start_button = Button(gui, text="Start")
 
 öffnen_button = Button(gui, text="Öffnen")
 
-beenden_button = Button(gui, text="Beenden")
+beenden_button = Button(gui, text="Beenden", command=gui.destroy)
 
 
 info_label.grid(row=0, column=0)
@@ -43,7 +44,9 @@ dateiname_label.grid(row=3, column=0)
 dateiname_entry.grid(row=3, column=1)
 
 start_button.grid(row=4, column=0)
+
 öffnen_button.grid(row=4, column=1)
+
 beenden_button.grid(row=4, column=2)
 
 

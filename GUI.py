@@ -1,5 +1,6 @@
 from tkinter import *
-import Webscraper
+from Webscraper import starten
+from öffnen import öffnen
 
 gui = Tk()
 gui.resizable(width=False, height=False)
@@ -25,9 +26,9 @@ seiten_entry = Entry(gui, bd=5, width=20)
 dateiname_label = Label(gui, text="Namen der Datei eintragen:")
 dateiname_entry = Entry(gui, bd=5, width=20)
 
-start_button = Button(gui, text="Start")
+start_button = Button(gui, text="Start", command=starten())
 
-öffnen_button = Button(gui, text="Öffnen")
+öffnen_button = Button(gui, text="Öffnen", command=öffnen())
 
 beenden_button = Button(gui, text="Beenden", command=gui.destroy)
 

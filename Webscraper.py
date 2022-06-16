@@ -8,9 +8,10 @@ from GUI import product_entry, seiten_entry, dateiname_entry
 
 
 def starten():
+    global dateiname
     suchbegriff = product_entry.get()
     seiten = seiten_entry.get()
-    dateiname = dateiname_entry()
+    dateiname = dateiname_entry.get()
     webscraper(suchbegriff, seiten, dateiname)
 
 def webscraper(suchbegriff, seiten, dateiname):

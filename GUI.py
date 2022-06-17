@@ -1,5 +1,6 @@
 from tkinter import *
-
+from öffnen import datei_öffnen
+from Webscraper import starten
 
 gui = Tk()
 gui.resizable(width=False, height=False)
@@ -24,11 +25,8 @@ seiten_label = Label(gui, text="Anzahl der Seiten eintragen:")
 
 
 options = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-
-seiten = IntVar()
-seiten.set(1)
-
-drop = OptionMenu(gui, seiten, *options)
+seiten_dropdown = IntVar()
+drop = OptionMenu(gui, seiten_dropdown, *options)
 
 
 
@@ -36,10 +34,9 @@ dateiname_label = Label(gui, text="Namen der Datei eintragen:")
 dateiname_entry = Entry(gui, bd=5, width=20)
 
 
-start_button = Button(gui, text="Start")
+start_button = Button(gui, text="Start", command= starten())
 
-
-öffnen_button = Button(gui, text="Öffnen")
+öffnen_button = Button(gui, text="Öffnen", command= datei_öffnen())
 
 beenden_button = Button(gui, text="Beenden", command=gui.destroy)
 
@@ -63,5 +60,3 @@ beenden_button.grid(row=4, column=2)
 
 
 gui.mainloop()
-
-print(seiten.get())

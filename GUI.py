@@ -1,6 +1,5 @@
 from tkinter import *
-from Webscraper import starten
-from öffnen import öffnen
+
 
 gui = Tk()
 gui.resizable(width=False, height=False)
@@ -10,7 +9,7 @@ gui.title("Amazon Webscraper")
 info_label = Label(gui, text="""\
     ************* Amazon Webscraper *************
        1) Gewünschtes Produkt eintragen.
-       2) Anzahl der zu suchenden Seiten eintragen.
+       2) Anzahl der zu suchenden Seiten auswählen.
        3) Name der Excel Datei eintragen.
        4) "Start" Button drücken
        5) Warten bis das Programm beendet ist
@@ -21,14 +20,26 @@ product_label = Label(gui, text="Zu suchendes Produkt eintragen:")
 product_entry = Entry(gui, bd=5, width=20)
 
 seiten_label = Label(gui, text="Anzahl der Seiten eintragen:")
-seiten_entry = Entry(gui, bd=5, width=20)
+
+
+
+options = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+
+seiten = IntVar()
+seiten.set(1)
+
+drop = OptionMenu(gui, seiten, *options)
+
+
 
 dateiname_label = Label(gui, text="Namen der Datei eintragen:")
 dateiname_entry = Entry(gui, bd=5, width=20)
 
-start_button = Button(gui, text="Start", command=starten())
 
-öffnen_button = Button(gui, text="Öffnen", command=öffnen())
+start_button = Button(gui, text="Start")
+
+
+öffnen_button = Button(gui, text="Öffnen")
 
 beenden_button = Button(gui, text="Beenden", command=gui.destroy)
 
@@ -39,7 +50,7 @@ product_label.grid(row=1, column=0)
 product_entry.grid(row=1, column=1)
 
 seiten_label.grid(row=2, column=0)
-seiten_entry.grid(row=2, column=1)
+drop.grid(row=2, column=1)
 
 dateiname_label.grid(row=3, column=0)
 dateiname_entry.grid(row=3, column=1)
@@ -52,3 +63,5 @@ beenden_button.grid(row=4, column=2)
 
 
 gui.mainloop()
+
+print(seiten.get())

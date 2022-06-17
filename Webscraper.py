@@ -3,16 +3,19 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 from time import sleep
-import openpyxl
-from GUI import product_entry, seiten_entry, dateiname_entry
+
+
+
 
 
 def starten():
+    from GUI import product_entry, seiten_dropdown, dateiname_entry
     global dateiname
     suchbegriff = product_entry.get()
-    seiten = seiten_entry.get()
+    seiten = seiten_dropdown.get()
     dateiname = dateiname_entry.get()
     webscraper(suchbegriff, seiten, dateiname)
+
 
 def webscraper(suchbegriff, seiten, dateiname):
     headers ={'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0'}
@@ -20,7 +23,7 @@ def webscraper(suchbegriff, seiten, dateiname):
     base_url = "https://www.amazon.com/s?k={}".format(suchbegriff).replace(' ', '+')
 
     items = []
-    for i in range(1, int(seiten) + 1):
+    for i in range(1, seiten + 1):
         print("Scrapen von Seite {}...".format(i))
         response = requests.get(base_url + "&page{}".format(i), headers=headers)
         soup = BeautifulSoup(response.content, 'html.parser')

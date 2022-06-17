@@ -14,10 +14,7 @@ def starten():
     suchbegriff = product_entry.get()
     seiten = seiten_dropdown.get()
     dateiname = dateiname_entry.get()
-    webscraper(suchbegriff, seiten, dateiname)
 
-
-def webscraper(suchbegriff, seiten, dateiname):
     headers ={'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0'}
 
     base_url = "https://www.amazon.com/s?k={}".format(suchbegriff).replace(' ', '+')

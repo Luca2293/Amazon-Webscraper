@@ -21,11 +21,9 @@ product_label = Label(gui, text="Zu suchendes Produkt eintragen:")
 product_entry = Entry(gui, bd=5, width=20)
 
 seiten_label = Label(gui, text="Anzahl der Seiten eintragen:")
-
-
-
 options = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
 seiten_dropdown = IntVar()
+seiten_dropdown.set(1)
 drop = OptionMenu(gui, seiten_dropdown, *options)
 
 
@@ -34,9 +32,9 @@ dateiname_label = Label(gui, text="Namen der Datei eintragen:")
 dateiname_entry = Entry(gui, bd=5, width=20)
 
 
-start_button = Button(gui, text="Start", command= starten())
+start_button = Button(gui, text="Start", command=starten())
 
-öffnen_button = Button(gui, text="Öffnen", command= datei_öffnen())
+öffnen_button = Button(gui, text="Öffnen", command=datei_öffnen())
 
 beenden_button = Button(gui, text="Beenden", command=gui.destroy)
 

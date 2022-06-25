@@ -28,8 +28,6 @@ seiten_dropdown = IntVar()
 seiten_dropdown.set(1)
 drop = OptionMenu(gui, seiten_dropdown, *options)
 
-
-
 dateiname_label = Label(gui, text="Namen der Datei eintragen:")
 dateiname_entry = Entry(gui, bd=5, width=20)
 

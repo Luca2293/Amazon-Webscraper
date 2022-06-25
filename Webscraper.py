@@ -3,51 +3,47 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 from time import sleep
+import openpyxl
 
 
 
-
-
-def starten():
-    from GUI import product_entry, seiten_dropdown, dateiname_entry
-    global dateiname
+def webscraper():
+    from GUI import seiten_dropdown, product_entry, dateiname_entry
     suchbegriff = product_entry.get()
     seiten = seiten_dropdown.get()
-    dateiname = dateiname_entry.get()
+    global dateiname
+    dateiname = dateiname_entry.get().replace(' ', '_')
 
-    headers ={'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0'}
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0',
+        'Accept-Language': 'en-US, en;q=0.5'
+    }
 
-    base_url = "https://www.amazon.com/s?k={}".format(suchbegriff).replace(' ', '+')
+    base_url = 'https://www.amazon.de/s?k={}'.format(suchbegriff).replace(' ', '+')
 
-    items = []
+    liste_name = []
+    liste_preis = []
+
+
     for i in range(1, seiten + 1):
-        print("Scrapen von Seite {}...".format(i))
-        response = requests.get(base_url + "&page{}".format(i), headers=headers)
+        print('Scrapen von Seite {}...'.format(base_url + '&page={0}'.format(i)))
+        response = requests.get(base_url + '&page={}'.format(i), headers=headers)
         soup = BeautifulSoup(response.content, 'html.parser')
 
-        results = soup.find_all('div' , {'class': 's-result-item', 'data-component-type': 's-search-result'})
-
-        for result in results:
-            product_name = results.h2.text
-
+        for container in soup.find_all('div', {'class': 's-result-item', 'data-component-type': 's-search-result'}):
             try:
-                rating = result.find('i', {'class': 'a-icon'}).text
-        
+                product_name = container.find('span', attrs={'class': 'a-size-base-plus a-color-base a-text-normal'}).text
+                liste_name.append(product_name)
             except AttributeError:
-                continue
+                continue    
 
             try:
-                price1 = result.find('span', {'class': 'a-price-whole'}).text
-                price2 = result.find('span', {'class': 'a-price-fraction'}).text
-                price = float(price1 + price2)
-                product_url = 'https://amazon.com' + result.h2.a['href']
-
-                items.append([product_name, rating, price, product_url])
-                
+                price = container.find('span', attrs={'class': 'a-price-whole'}).text
+                liste_preis.append(price)
             except AttributeError:
                 continue
 
         sleep(1.5)
         
-    df = pd.DataFrame(items, columns=['product', 'rating', 'price', 'product url'])
+    df = pd.DataFrame(zip(liste_name, liste_preis), columns=['Produktname', 'Preis in €'])
     df.to_excel('{}.xlsx'.format(dateiname), index=False)
